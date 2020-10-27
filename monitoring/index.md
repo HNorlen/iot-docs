@@ -7,15 +7,15 @@
 
 ## 1. What is provided for monitoring in Maximo Application Suite
 
-From Maximo Application Suite 8.2.0 a number of components in the IoT tool, and the Suite Licensing Service now produce prometheus based metrics and a number of pre-defined grafana dashboards are available to help monitor the components of the IoT tool and licensing issues.
+From Maximo Application Suite 8.2.0, a number of components in the IoT tool and the Suite Licensing Service now produce Prometheus-based metrics. In addition, a number of pre-defined Grafana dashboards are available to help you monitor the components of the IoT tool and understand licensing issues.
 
 The licensing dashboard can be used to monitor token and license usage over time such as expiration, app points, and product usage. The api stats are also available for overall usage, duration, and calls made.
 
-Maximo Application Suite does not provide the Prometheus or Grafana deployments and these must be provided outside of Maximo Application Suite to take advantage of this monitoring. The following sections will provide a guide as to how you can quickly get setup with a Prometheus and Grafana stack. There are various degrees of configuration that can be achieved based on your requirements (persistence, retention periods, security, etc)
+Maximo Application Suite does not provide the Prometheus or Grafana deployments. These must be provided outside of Maximo Application Suite to take advantage of this monitoring. The following sections guides you through how to quickly get started with a Prometheus and Grafana stack. Various degrees of configuration can be achieved based on your requirements such as: persistence, retention periods, security, and so on.
 
 ### Prometheus metrics endpoints
 
-One the Prometheus Operator is installed a number of ServiceMonitor kind resources are created by the AppSuite Operator and IoT Operator in the MAS core namespace/project and the IoT namespace/project. These will be read by the Prometheus Operator to indicate the service that provides the metrics endpoint that Prometheus should call to gather metrics.
+One the Prometheus Operator is installed a number of ServiceMonitor kind resources are created by the AppSuite Operator and IoT Operator in the MAS core namespace/project and the IoT namespace/project. These are read by the Prometheus Operator to indicate the service that provides the metrics endpoint that Prometheus should call to gather metrics.
 
 As of Maximo Application Suite 8.2.0 the following IoT components provide metric endpoints:
 - actions
@@ -34,9 +34,9 @@ As of Maximo Application Suite 8.2.0 the following IoT components provide metric
 As of Maximo Application Suite 8.2.0 the following MAS core metric endpoints are provided:
  - api-licensing
 
-### Grafana Dashboards
+### Grafana dashboards
 
-Once a Grafana Operator is installed then the IoT operator will ensure that the resources that represent the Grafana Dashboards are installed. If the Red Hat Grafana Operator is used then the resources will belong to the api group `integreatly.org/v1alpha1` and of kind `GrafanaDashboard`. If the IBM Common Services Monitoring service is used then the resource provided by IoT tool belong to the api group `monitoringcontroller.cloud.ibm.com/v1` and of kind `MonitoringDashboard`. Both kinds are automatically picked up by the Grafana Operator and installed into the Grafana Instance into a folder based on the namespace/project name.
+Once a Grafana Operator is installed then the IoT operator ensures that the resources that represent the Grafana Dashboards are installed. If the Red Hat Grafana Operator is used, then the resources belong to the api group `integreatly.org/v1alpha1` and of kind `GrafanaDashboard`. If the IBM Common Services Monitoring service is used, then the resource that is provided by IoT tool belong to the api group `monitoringcontroller.cloud.ibm.com/v1` and of kind `MonitoringDashboard`. Both kinds are automatically picked up by the Grafana Operator and installed into the Grafana Instance into a folder based on the namespace/project name.
 
 As of Maximo Application Suite 8.2.0 the following Grafana dashboards are provided:
 
@@ -49,13 +49,13 @@ As of Maximo Application Suite 8.2.0 the following Grafana dashboards are provid
   - [orgmgmt](iot-orgmgmt-details.md)
  
   
-## 2. Prometheus Setup
+## 2. Prometheus setup
 
 ### OpenShift TechPreview 
 
-OpenShift provides a Prometheus that is used to monitor the internals of OpenShift only. To install Prometheus to monitor workloads such as Maximo Application Suite and any other applications in the OpneShift cluster you can configure the OpenShift tech preview to monitor these services as described in https://docs.openshift.com/container-platform/4.3/monitoring/monitoring-your-own-services.html#enabling-monitoring-of-your-own-services_monitoring-your-own-services
+OpenShift provides a Prometheus that is used to monitor the internals of OpenShift only. To install Prometheus to monitor workloads such as Maximo Application Suite and any other applications in the OpenShift cluster, you can configure the OpenShift tech preview to monitor these services as described in https://docs.openshift.com/container-platform/4.3/monitoring/monitoring-your-own-services.html#enabling-monitoring-of-your-own-services_monitoring-your-own-services
 
-In summary of the above link you would:
+In summary of the above link, you would:
 
 - Create/Update the configmap so that the `techPreviewUserWorkload` is enabled
 - Wait for the Prometheus pods to be created in the `openshift-user-workload-monitoring` project
@@ -64,19 +64,19 @@ Customization of the user workload monitoring stack can be achieved by following
 
 ### IBM Common Services
 
-As of version 1.9.0 of the IBM Common Services monitoring service (https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html) the Prometheus instance is provided by the Red Hat OpenShift tech preview mentioned above.
+As of version 1.9.0 of the IBM Common Services monitoring service (https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html) the Prometheus instance is provided by the Red Hat OpenShift tech preview that is mentioned previously.
 
-If you have an existing IBM Common Services monitoring service then this will work as long as it is able to watch for ServiceMonitor resources in the IoT namespace.
+If you have an existing IBM Common Services monitoring service, then that service works as long as it is able to watch for ServiceMonitor resources in the IoT namespace.
 
-## 3. Grafana Setup
+## 3. Grafana setup
 
 ### Red Hat Grafana Operator
 
-The following provides details on how to install and cofigure the [Grafana Operator](https://operatorhub.io/operator/grafana-operator) Red Hat via the OperatorHub into the `openshift-user-workload-monitoring` project.
+The following examples otlines how to install and configure the [Grafana Operator](https://operatorhub.io/operator/grafana-operator) on Red Hat via the OperatorHub into the `openshift-user-workload-monitoring` project.
 
-From the OpenShift UI navigate to the Operators->OperatorHub and search for the "Grafana Operator" provided by Red Hat. Install the operator into the `openshift-user-workload-monitoring` namepsace.
+From the OpenShift UI, navigate to **Operators->OperatorHub** and search for the "Grafana Operator" that is provided by Red Hat. Install the operator into the `openshift-user-workload-monitoring` namespace.
 
-Once the operator is installed update the grafana operators yaml file, via the yaml tab after clicking on the operator, to add the following:
+After the operator installation completes, update the Grafana operators yaml file, via the yaml tab after clicking the operator to add the following:
 
 ```
 args: 
@@ -120,17 +120,21 @@ The yaml file show now look like this:
                     ....
 ```
 
-The above ensures that all projects are scanned for GrafanaDashboard resources. To ensure that the correct permission is set to scan these projects then you can run the following ansible playbook, located in the https://github.com/integr8ly/grafana-operator/tree/master/deploy/ansible repo, to setup the cluster role:
+The yaml updates ensure that all projects are scanned for GrafanaDashboard resources. To ensure that the correct permission is set to scan these projects, run the following Ansible playbook in the https://github.com/integr8ly/grafana-operator/tree/master/deploy/ansible repo to set up the cluster role:
 
 ```
 ansible-playbook grafana-operator-cluster-dashboards-scan.yaml -e k8s_host=https://api.yourcluster.com:6443 -e k8s_api_key=xxxxx -e k8s_validate_certs=false -e grafana_operator_namespace=openshift-user-workload-monitoring
 ```
 
-The k8s_api_key is the login token used when you do an oc login. Alternatively you can use `k8s_password` and `k8s_username`.
+The `k8s_api_key` is the login token that is used when you do an oc login. Alternatively you can use `k8s_password` and `k8s_username`.
 
-#### Grafana Instance
+#### Grafana instance
 
-Next step is to create the Grafana instance. Within the Grafana Operator UI in Installed Operators section of the OpenShift UI select the `Grafana` tab and click `Create Grafana`. Enter the following yaml:
+The next step is to create the Grafana instance. 
+
+Within the Grafana Operator UI in Installed Operators section of the OpenShift UI, select the *Grafana* tab and click *Create Grafana*. 
+
+Enter the following yaml:
 
 ```
 apiVersion: integreatly.org/v1alpha1
@@ -161,15 +165,15 @@ spec:
     - matchExpressions:
         - {key: app, operator: In, values: [grafana]}
 ```
-The above will create will create a PVC using the `rook-ceph-block-internal` storage class and set a admin username of `root` and password of `secret`. These values should be changed to more secure values.
+The above creates a PVC using the `rook-ceph-block-internal` storage class and set an admin username of `root` and password of `secret`. These values should be changed to more secure values.
 
 A route is also created and the public url can be located in that route definition in the `openshift-user-workload-monitoring` namespace/project.
 
-Further customizations can be found in https://github.com/integr8ly/grafana-operator/blob/v3.5.0/documentation/deploy_grafana.md and also manual scripts to set the cluster role if ansible is not preferred.
+Further customizations can be found in https://github.com/integr8ly/grafana-operator/blob/v3.5.0/documentation/deploy_grafana.md and also manual scripts to set the cluster role if Ansible is not preferred.
 
 #### Grafana Datasource
 
-Next step is to create the GrafanaDatasource that will point to the prometheus instance installed eariler. Similar to the Grafana Instance choose the `Grafana Datasource` from the operator UI, and set the following yaml:
+Next step is to create the GrafanaDatasource that will point to the Prometheus instance installed earlier. Similar to the Grafana Instance choose the `Grafana Datasource` from the operator UI, and set the following yaml:
 
 ```
 apiVersion: integreatly.org/v1alpha1
@@ -210,6 +214,6 @@ Note: the datasource name that is set above is `prometheus` and the provided Gra
 
 ### IBM Common Services
 
-Alternatively to the Red Hat Grafana Operator you can install the IBM Common Services Monitoring service (https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html) which will install the IBM Common Services Grafana Operator. Similar to the Red Hat Grafana Operator this operator will be configured to scan all namespaces/projects to find GrafanaDashboards.
+Alternatively to the Red Hat Grafana Operator you can install the IBM Common Services Monitoring service (https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html) which installs the IBM Common Services Grafana Operator. Similar to the Red Hat Grafana Operator this operator is configured to scan all namespaces/projects to find GrafanaDashboards.
 
-Please follow the details in https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html on how to install the IBM Common Services Monitoring service.
+Follow the details in https://www.ibm.com/support/knowledgecenter/SSHKN6/monitoring/landing_monitoring.html on how to install the IBM Common Services Monitoring service.
