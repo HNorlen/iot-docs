@@ -132,7 +132,7 @@ To create the user vai the Strimzi Operater User Interface, navigate to the Oper
 
 ![](kafka-resources/createuser.png)
 
-
+ 
 On the subsequent dialogue, replace the YAML with the content of the [`mas-kafka-user.yaml`](kafka-resources/mas-kafka-user.yaml) sample file and then click "Create":
 
 ![](kafka-resources/createuser2.png)
